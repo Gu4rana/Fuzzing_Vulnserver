@@ -6,4 +6,4 @@
   * Spike
   * Ollydbg
  
- This repo just the script of exploitation writing during the OSCE prepartion
+ This repo just the scripts of exploitation writing during the OSCE prepartion
