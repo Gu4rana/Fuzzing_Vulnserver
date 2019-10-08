@@ -1,0 +1,17 @@
+s_readline();
+s_string("HTER ");
+s_string_variable("value");
+s_string("\r\n");
+
+
+
+
+
+
+
+
+
+
+
+
+
